@@ -2,27 +2,52 @@
 
 #define NUM_LEDS 10
 #define DATA_PIN 2
+#define CHIPSET WS2812B
+#define COLOR_ORDER RGB
 
+
+#define TEMPERATURE_1 Tungsten100W
+#define TEMPERATURE_2 OvercastSky
+
+#define DISPLAYTIME 5
+#define BLACKTIME   1
+
+
+int BRIGHTNESS = 50;
 CRGB leds[NUM_LEDS];
 
 void setup() {
-    delay(2000);
-    FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
+  delay(500);
+  FastLED.addLeds<CHIPSET, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
+  FastLED.setBrightness(BRIGHTNESS);
 }
 
 void loop() {
-   // Move a single white led 
-   for(int whiteLed = 0; whiteLed < NUM_LEDS; whiteLed = whiteLed + 1) {
-      // Turn our current led on to white, then show the leds
-      leds[whiteLed] = CRGB::White;
+  static uint8_t starthue = 0;
+  fill_rainbow(leds, NUM_LEDS, --starthue, 20);
 
-      // Show the leds (only one of which is set to white, from above)
-      FastLED.show();
+  uint8_t secs = (millis() / 1000) % (DISPLAYTIME * 2);
 
-      // Wait a little bit
-      delay(100);
+  if (BRIGHTNESS > 255) {
+    BRIGHTNESS = 0;
+  } else {
+    BRIGHTNESS += 50;
+  }
+  FastLED.setBrightness(BRIGHTNESS);
 
-      // Turn our current led back to black for the next loop around
-      leds[whiteLed] = CRGB::Black;
-   }
+  if (secs < DISPLAYTIME) {
+    FastLED.setTemperature( TEMPERATURE_1 ); // first temperature
+    leds[0] = TEMPERATURE_1; // show indicator pixel
+  } else {
+    FastLED.setTemperature( TEMPERATURE_2 ); // second temperature
+    leds[0] = TEMPERATURE_2; // show indicator pixel
+  }
+
+  if ((secs % DISPLAYTIME) < BLACKTIME) {
+    memset8(leds, 0, NUM_LEDS * sizeof(CRGB));
+  }
+
+  FastLED.show();
+  FastLED.delay(8);
+
 }
