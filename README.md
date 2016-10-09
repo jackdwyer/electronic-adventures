@@ -17,10 +17,10 @@
 ### ESP8266
 - WS2812B/FastLED 
 [![#1 ESP8266 Adventures](http://files.jackdwyer.org/2016_10_06-18:42:49.png)](https://youtu.be/349AKBOlgZM "#1 ESP8266 Adventures")
-- oled & ds1b20
+- OLED Display with the ds18b20 Temperature Sensor
 ![http://images.jackdwyer.org/960/2016-10-03_02:43:36.jpg](http://images.jackdwyer.org/960/2016-10-03_02:43:36.jpg)
 - OTA Server
-* Shelved for now, need to do more research
+    * Shelved for now, need to do more research
 
 ### Reading/Dependencies
 - [https://github.com/themadinventor/esptool](https://github.com/themadinventor/esptool)
