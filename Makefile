@@ -1,4 +1,4 @@
-screen:
+tempsensor:
 	arduino --upload TempDisplay/TempDisplay.ino --board esp8266:esp8266:nodemcuv2 --port /dev/ttyUSB0
 
 # --board should reflect generic espt
